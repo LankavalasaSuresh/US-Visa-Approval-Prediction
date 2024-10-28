@@ -29,6 +29,7 @@ logging.basicConfig(
 # First time when we ran it, it created a new logs folder. and evertime we run it , it will create a new log file with different timestamp.
 # We used demo.py file to test our logger code.
 # We can use this logger code in other python projects.
+# Always run the below code in demo.py file and dont run the logger, constructor file.
 
 # used below code in demo.py file:
 
