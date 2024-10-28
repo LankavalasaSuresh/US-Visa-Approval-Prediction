@@ -1,6 +1,7 @@
 # Custom Exception code.
 # In Python we have one Exception Package. We can create our custom exception by inheriting from Exception class as we did below.
 # we are sys because, with the help of system we will trace the issue.
+# In each and every component we will be writing exceptions.
 
 
 
@@ -46,8 +47,24 @@ try:
     a = 10 / "wwr"
 except Exception as e:
     raise USvisaException(e, sys) from e
-    
-    
-    
 '''
+
+# In corporate world we may not have terminal to test and see exceptions as above.
+# So we have to see exceptions through logging, so below is the code.
+
+'''
+from us_visa.logger import logging
+from us_visa.exception import USvisaException
+import sys
+
+logging.info("Welcome to our custom log")
+
+try:
+    a = 10 / "wwr"
+except Exception as e:
+    logging.info(e)
+    raise USvisaException(e, sys) from e
+'''
+
+
     

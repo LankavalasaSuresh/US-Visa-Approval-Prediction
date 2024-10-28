@@ -4,9 +4,9 @@ import sys
 
 logging.info("Welcome to our custom log")
 
-
 try:
     a = 10 / "wwr"
 except Exception as e:
+    logging.info(e)
     raise USvisaException(e, sys) from e
     
