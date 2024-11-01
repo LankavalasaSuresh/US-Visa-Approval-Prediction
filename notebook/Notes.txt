@@ -1,0 +1,30 @@
+############### EDA #############
+
+3. Exploring data
+
+In every problem statement, always first separate out numerical and categorical variables while exploring data. 
+Numerical variables can be analyzed using statistical measures like mean, median, mode, standard deviation, skewness, kurtosis, and percentiles. 
+Categorical variables can be analyzed using frequency tables, bar charts, pie charts, or chi-square tests.
+
+in EDA, we have different types of analysis. like univariate, bivariate, multivariate, and time series analysis.
+
+skewness:
+Power transformation is the best solution to deal with skewness. It can be done using logarithmic, square root, reciprocal, or any other mathematical function.
+
+
+After EDA We will have some idea about data and what is the issue with my data. What steps can I take to fix it before training our model in feature enginnering stage.
+
+
+
+############## Feature Enginnering ##############
+
+4. Feature Engineering
+
+Feature engineering is the process of transforming raw data into features that better represent the underlying patterns and relationships in the data. It is a crucial step in building accurate machine learning models.
+
+Which ML model you will be using for this data ?
+Instead of reliaing on one particular model, i will be picking multiple models and fit the data and check the final report.
+Based on that i will deicde which model to use.
+
+
+##After EDA and Feature Engineering, we will proceed with modular coding , taking EDA and Feature Engineering as considerations.
