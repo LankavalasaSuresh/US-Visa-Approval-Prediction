@@ -115,3 +115,5 @@ Once we write other components code also, then when we run run_pipeline, all com
 
 if we execute the code again , under artifacts a new time stamp will be created. This is because we are using timestamp in the artifact directory name.
 It will always take the latest timestamp artifact to send to next component.
+
+We can see logs are also generating in logs folder. This is helpful to understand what is happening in each component.

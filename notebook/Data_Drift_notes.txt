@@ -1,0 +1,17 @@
+In Artifact, in data_ingestion -> ingested folder.
+We have train and test files.
+with train file we will train the model.
+But before using the test file for evaluation purpose, we need to check whether there is drift or not inside my test data.
+if there is drift we need to fix it.
+
+To detect drift, we can use MLOPS tools called evidently.
+It is an opensource monitoring tool and data drift tool.
+We can use evidently for many purposes, but currently we will use for data drift purporse.
+We will use data drift in model evaluation component.
+
+We can do a experiment and see how to detect data drift...
+We already installed evidently in requirement.txt file.
+Please refer data_drift_demo_evidently.ipynb file under notebook for experiment related.
+
+We cant say when drift will come, we have to add this pipeline in code, whenever drift is detected, it will give an alert.
+
