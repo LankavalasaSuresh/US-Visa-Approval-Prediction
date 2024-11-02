@@ -111,3 +111,7 @@ Now we have to update our main data ingestion component.
 After that we have to write our pipeline and run_pipeline will be our main function, which we will be calling from end point as we did in demo.py file.
 
 Once we write other components code also, then when we run run_pipeline, all components will start executing one after other.
+
+
+if we execute the code again , under artifacts a new time stamp will be created. This is because we are using timestamp in the artifact directory name.
+It will always take the latest timestamp artifact to send to next component.
