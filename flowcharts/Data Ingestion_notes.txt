@@ -1,0 +1,113 @@
+In high level if we see the flow chart, we can observe that , we need to just ingest the data from mongoDB.
+Inside mongodb, we have our actually US Visa csv file.
+After ingesting, now in data ingestion , we also need to apply train,split operation and validate the data..
+After that we will be saving this data in ingested folder.
+Also the actual us vids csv file will be downloaded and we will be storing it in feature store folder inside artifact.
+
+Now how we are going to code this is important.?
+First we have create one entity. that means some constanss we have to create.
+We already have a folder under us_visa, named constants. --> go to its constructor file.
+In this constructor file, we will define and initialize our constants(variables). There are some basic constants that are common in everyproject like:
+Database and collection name in mongoDB.
+We have artifact dir, which will create a dir named "artifact" in the project root and it will store all like data ingestion, data valuation artifact under it.
+This constants are like hard coded variables.
+This constan file is required because, whenever we want to change any constant, we need to change it in one place only. no need to do it wherever it is present in entire code.
+its like script.params file in regression.
+
+These constants can be used by all compoenents in my project.
+Every component can have specific constants, that also we need to define here.
+
+In flow chart, we can see that some data ingestions constans are also required. So lets write them .
+
+An artifact directory will be created with timestamp and component name. 
+Inside that it will create two folders named "feature_store", "ingested".
+train test split. --> So 2o% data we are keeping for testing and 80% for training.
+We are using those constants that we actually need, not all from flowchart.
+
+In modular coding we can create any folder or file. its my wish.
+
+Now for connecting to mongoDB, we will create a py file under us_visa -> configuration. and write our code as we did to connect in jupyter notebook.
+so mongo_db_connection.py will help you to connect to mongodb client.
+Now after connection, we have to convert the data into dataframe. As by default the data stored in mongodb is in json format (dict) and also we removed our first column "case_id" which was not required.
+We have to write this logic and also we have to save the final data in artifact folder as csv file , not as json or dict file.
+
+To do this, we will create a new folder under us_visa named data_access.
+In data_access, we will create a file name usvisa_data.py, and this file will help to return data as dataframe. 
+We will write a logic to first import data from mongodb, then convert it into dataframe and remove first column and finally return the dataframe.
+
+
+### What data ingestion will give you as an artifact ? how many files will data ingestion give you as output whenever you execute data ingestion ?
+3 files.
+first it will give you entire dataset as csv file.
+and next two are train and test data as csv files.
+
+###
+We can write all the code written in configuration, data_access, and constants files in data_ingestion component. But it will increase code complexity. so to understand it in good way and manage the code. We have created different file for each part of the project.
+modular coding --> reusuability of code.
+
+So,
+how to connect to mongodb, we have written a separate class for it.
+how to export data as dataframe, we create a separate class for it.
+
+Now everything is ready. Now we can write our final logic in data_ingestion component to ingest data.
+Before that we have create some data ingestion configuration as shown in flowchart..
+
+go to us_visa --> entity --> config entity.
+# dataclass means it is not a simple python class. Inside dataclass whatever variables we mention, we can access them from any other file.
+dataclass is a decorator. no need to mention self inside that decorator.
+
+## Workflow:
+first we have to create constants file.
+After constant , we have to chnage config_entity.
+after config_entity, we have set the artifact entity.
+once artifact is also prepared, we can write data ingestion component logic.
+After component is prepared, we have to add everthing inside pipeline. We need to change pipeline.
+once pipeline is ready, we have to create it as an end point. we need to change app.py
+
+
+Now as per workflow, lets update artifact entity.
+once it is done.
+
+Now we have to write actual logic in data_ingestion component.
+once we have completed data ingestion component logic. we need to write the pipeline logic. 
+
+pipeline --> training_pipeline.py
+# Inside pipeline, we will be having the flow. which component will be run first and then next.
+we have to import our component and configuration in pipeline file.
+
+After pipeline is ready. We can now test our code in demo.py file.
+Before that dont forget to set mongodb url in environment variables.
+Under notebook, in mongodb_demo.py file, i have written how to set the connection string as environment variable.
+
+'''
+demo.py file:
+
+from us_visa.pipline.training_pipeline import TrainPipeline
+
+
+pipline  = TrainPipeline()
+pipline.run_pipeline()
+
+''' 
+
+Once after successfull execution  of our demo.py file, we can see that a folder is created named "artifact" with timestamp in our project root. 
+If we see the flowchat:
+
+Under data_ingestion artifact: 
+2 folders are created: feature_store and ingested.
+in feature_store, we have actualy csv file.
+in ingested, we have train and test data as csv files.
+
+##### A walkthrough of what we did until now #####
+
+We started by defining our constants/variables in contructor file of constants.
+After that we have update our configuration entity in our entity folder. inside data class we are only manipulating the file and folder location. We are working with paths.
+Then, we created an artifact entity in our entity folder. Because we want to return what is the artifact of this particular component. 
+
+In data ingestion how many artifact we are returning ?
+2 paths we are returning, test and train csv paths.
+
+Now we have to update our main data ingestion component.
+After that we have to write our pipeline and run_pipeline will be our main function, which we will be calling from end point as we did in demo.py file.
+
+Once we write other components code also, then when we run run_pipeline, all components will start executing one after other.
