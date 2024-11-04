@@ -1,0 +1,19 @@
+Once our dataset is created and all validations checkpoint have passed.
+We have Schema.yaml file, where we have mentioned all the columns which require one hot encoding, ordinal encoding as well as transformation.
+Please refer what we did in feature engineering.
+Once transformation is applied on train and test datasets.
+We need to save them in .npy (numpy) format. Later we can use them for model training.
+We also have to save preprocesser object as pikel (pkl) format.
+Data tranformation component will save 3 files for next component.
+train, test and preprocessing.pkl.
+
+
+The target value in the csv file is categorical (certified or denied). Its not a number.
+No we have convert them to number.
+For this we will be creating a estimator with TargetValueMapping inside entity.
+entity --> estimator.py 
+
+Once we add the required code in all the files and run the pipeline.
+We can see datavalidation folder created in artifact.
+So now we have our transformed data and preprocessing.pkl.
+
