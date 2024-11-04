@@ -1,0 +1,59 @@
+So in data ingestion component, it was ingesting data from mongDB and we were performing train, test split operation and we were returing the path of train and test data.
+
+Data validation Component:
+SO first we will define some data validations constants.
+and after that it will build a config. (config means it will create the paths like folder and file path locations.)
+Also from the previous component, it will take train and test data from ingested folder as an artifact inputs.
+After that we need to read both the data.
+After that first thing we will do is column verification. (that means train and test data should have same number of columns.)
+if everything is fine, we need to return status as true.
+If it is true then it will go to next verification.
+next verification is "is numerical column exists" ? 
+if not then status will go to false statement. if it exists it should return true.
+if true it will go to nect verification.
+Likewise we can do multiple verifications.
+
+## These things we will mention in schema file.
+config --> schema.yaml.
+in this file we have to mention data schema and the verification is called schema verification.
+We will compare schema and our data files, if everything is fine then we will go to next step.
+that is data drift prediction.
+if data drift status is false, that means everything is fine. and drift status we will storing as yaml (json format.)
+If everything is fine, then we can move ahead with next component.
+In data validation we are just doing validation checks.
+With the help of validaition status in artifact_entity file, It will retun true or false. Based on this we will move to next component.
+
+
+Lets do implementation:
+First we defined our schema.yaml file.
+From EDA we got to know about data, same we will mentuon in schema.yaml file. We will create schema file based on EDA.
+
+Now we will update data validation constants in constants file.
+next we will change config.entity file.
+next update artifact entity.
+Now we have to update the component file data validation.
+Once component is ready, we need to update trianing pipeline.
+Now lets run the pipeline.
+Before running demo.py we need to export our mongodb key.
+demo.py is my end point, as we are calling the run_pipeline here.
+After succesfull completion of the pipeline, we can see that logs and artifact folders are created.
+
+In artifact folder, two folders are created -- data ingestion and data validation and their respective content.
+We can move to our next component.
+
+
+### We can also delete our logs folder and artifact folder and run again. They will generate again when we run pipeline again. If not delete also fine.
+
+
+
+
+
+What Datavalidation component will do?
+First it will take data ingestion artifact from previous component and datavalidation config.
+In this component we will only be doing validation checks. 
+Data transformation, deleting of columns , encoding will be done in next component "data transformation".
+
+
+
+
+

@@ -1,3 +1,6 @@
+# In config_entity, we define the path by combining the constants.
+
+
 import os
 from us_visa.constants import *
 from dataclasses import dataclass
@@ -24,10 +27,12 @@ class DataIngestionConfig:
     train_test_split_ratio: float = DATA_INGESTION_TRAIN_TEST_SPLIT_RATIO
     collection_name:str = DATA_INGESTION_COLLECTION_NAME
 
-'''
-data_ingestion_dir --> where the data will be ingested/stored ?
-it will ingested in artifact --> inside feature_store.
 
-Basically we are combining all the paths using os.path.join() method.
 
-'''
+@dataclass
+class DataValidationConfig:
+    data_validation_dir: str = os.path.join(training_pipeline_config.artifact_dir, DATA_VALIDATION_DIR_NAME)
+    drift_report_file_path: str = os.path.join(data_validation_dir, DATA_VALIDATION_DRIFT_REPORT_DIR,
+                                               DATA_VALIDATION_DRIFT_REPORT_FILE_NAME)
+
+
