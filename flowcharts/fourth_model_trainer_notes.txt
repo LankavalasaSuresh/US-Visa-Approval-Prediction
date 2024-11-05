@@ -1,0 +1,31 @@
+First update constants.
+update config.entity.
+update artifact entity.
+update component.
+update model.yaml file.
+create a class in entity --> estimator.py file.
+update pipeline.
+run pipeline.
+
+
+
+Under config --> model.yaml
+We will keep algorithms which are working fine for me in feature enginnering test we did in jupyter notebook.
+
+neuro.mf is the module created by ineuron team.
+There are many modules present to perform each task in python. You can use them to make ur work easier.
+Packages are hosted on pypi.
+
+
+model triainer will take transformation artifact as input.
+Once we run the pipeline, we can see that model.pkl file is generated under model_trainer under artifact.
+
+
+Workflow of model_trainer component:
+
+model_trainer component will take transformation artifact - transformed data and preprocessing object as input.
+it will load the training and testing numpy array.
+it will also load the config model.yaml due to hyperparamter tuning.
+Then it will get the best model report with the help of neuro model factory.
+After we get the best model, then we compare the accuracy, if it is fine wrt to accuracy then it will return true.
+After that we will save that particular model as model.pkl in artifact folder.
