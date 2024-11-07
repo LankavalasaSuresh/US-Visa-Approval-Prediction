@@ -1,0 +1,156 @@
+In model_trainer component, we have trained the model and it has one model (model.pkl) as artifact.
+
+Model Evaluation:
+Model evaluation means we have to test our model on top of test data.
+We have 2 datas, train and test data.
+By using train data we have used while training our model.
+
+So in model evaluation we will loading our test data and model.
+Model evaluation will only return whether this model is accepted or not.
+How it will decide?
+Based on the accuracy of model.
+
+
+
+Intially in s3 bucket, we dont have any model.
+so the model we are gettiing from training is our best model as of now.
+then model evaluation status will return true.
+then in model pusher component, it will pick the model and push to s3 bucket.
+Now in second run, in s3 bucket we already have one model.
+Whenever model evalaution will take place,
+it will take model from ur local which is present in artifact and the model in s3 bukcet.
+It will load the test data in both the models.
+We will defining a threshold, suppose 0.5 or 0.6.
+Which ever model is having more accuracy score, that model will be considered as production model.
+
+whenever our local model , is performing better, the model evaluation component will return true.
+whenver it return true our local model is production model and model pusher will be pushing this model in s3 bucket.
+If model evaulation return false, then model pusher will not be pushing the model to s3 bucket.
+pushing means it will replce the existing model in s3 bukcet.
+
+Lets start coding:
+Before start model evaluation component, i need to setup my s3 bucket. I need to setup my aws credentials.
+Because we need to integrate aws with my model evaluation component.
+
+After we create iam user account in aws.
+now lets start with updating constants.
+us_visa --> constants.
+update aws constants. AWS access and secrect access key we will set as env variable.
+From aws we will be using s3 bucket service for our model evaluation component.
+We can also mention bucket name in constants file.
+To authenticate with s3, we will have a code.
+Create a file Under configuration --> aws_connection.py
+Now we have write some functions like how to download model from s3 bucket, how to push the model from local to s3 bucket ?
+Lets create a separate folder for aws related operations.
+us_visa --> cloud_storage.
+In cloud_storage --> aws_storage.py, we will write all functions for the operations i mentioned above.
+Now under entity create a python file with name s3_estimator. --> In which we will mention s3 related code.
+
+Now update config_entity.
+next update artifact_entity.
+update component.
+As model evaluation component will only return true or false.
+We have to write our model pusher component as well.
+
+
+Once we execute our pipeline, and then go to s3 bucket in aws and refresh it. We can see our model there.
+Now my model.pkl is inside my s3 bucket.
+
+
+
+-------------------------------------------------------------------------------------------------------
+Model Pusher component:
+
+No need of any additional constants.
+Update config and artifact entity.
+update component.
+Update training pipeline.
+
+
+If model evaluation is true then only model pusher will run else it will not run.
+Model evaulation will compare ur s3 model and latest model present in local which is generated after u reran the pipeline.
+If your latest local model is working better than s3 model, then model evaluation component will return true.
+if it is true then model pusher will run and push the latets local model to s3 bucket.
+
+
+
+
+
+----------------------------------------------------------------------------------------------------------
+Understanding workflow in short:
+
+In model evaluation component, we feed our test data and we check the accuracy score and other metrics.
+We have a local trained model.
+When we run pipeline for first time. Initially in s3 bucket, there is no model present.So it will return none.
+if it returns none, then our model pusher will run and it will push our trained local model to s3 bucket.
+When we run pipeline for second time, now there is a model present in s3 bucket.
+So second time, we will also have a local trained model.
+SO we have to decide whether latest trained model is better or model present in s3 bucket is better.
+How we will decide which one is better ?
+We will feed test data to both the models and which one is giving better accuracy, we will keep that.
+If our latest trained model is better, then we have to push it to s3 bucket.
+
+
+Whenever user is giving data to the model for prediction, which model we will use, the model present in s3 bucket (production model) or local trained model ?
+We will keep pur production model in s3 bucket.
+
+
+----------------------------------------------------------------------------------------------------------
+
+In model evaluation component, do we need to push or download the model?
+pushing will happen in model pusher component. In ME component, we need to download from s3 bucket.
+If something is there, it will download, else it will return none.
+So to download we need some python code.
+
+
+##AWS:
+Amazon web services is cloud platform. 
+
+How to setup account:
+google --> aws --> click on link where amazon web service is there.
+We created a free tier account.
+
+Once our aws console is ready.
+Now we have to create a i am user (identity access management), because we dont want use our root account.
+search with iam --> click on IAM --> click on users under Access management in left side --> create user on right side.
+--> Give user name (usvisaproject) --> click on next.
+--> in set permission --> Attach policies directly --> select Adminstrator access --> next
+--> create user at right bottom.
+
+We can see that under users , our new user is created.
+
+click on usvisaproject.
+--> security credentials --> Access keys --> Create access keys --> select command line interface --> check i understand box.
+--> next --> create access key.
+
+It will create access key and secert access key.
+--> download .csv file.
+In csv file we have our access key and secret access key.
+
+Now we have to export it as env variable as we did for mongodb url.
+We will use these two keys to connect with aws.
+Region is also required to connect.
+
+
+export AWS_ACCESS_KEY_ID="<AWS_ACCESS_KEY_ID>"
+export AWS_SECRET_ACCESS_KEY="<AWS_SECRET_ACCESS_KEY>"
+
+
+
+### s3 bucket create in aws.
+
+aws console --> search with s3. --> create bucket
+--> Give bucket name same we gave in constants.
+--> uncheck block all public access.
+--> check i acknowledge box.
+--> create bucket.
+--> We can see our bucket is created.
+
+
+
+
+
+
+
+
+

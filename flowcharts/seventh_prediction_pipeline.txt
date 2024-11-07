@@ -1,0 +1,41 @@
+All our components are completed.
+We have also implememted training pipeline.
+
+We also have to write prediction pipeline, because how user can interact with our model by giving his data and get predicted 
+whether his us visa will be approved or not ?
+lets create prediction pipiline.
+
+pipeline --> prediction_pipeline.
+
+We are adding two constants APP_HOST and APP_PORT in constants file as we are going to create user app.
+Here we are going to use FastAPI and it will use above constants.
+
+Update config_entity.
+
+----------------------------------------------------------------------------------------------------
+Whenever user will give data, we have to user our model present in s3 bucket for prediction.
+
+Whatever user is giving as input, we are converting it into dataframe. to covert to dataframe the data should be present in
+dictionary format. SO first we are converting to dict and then to dataframe.
+
+After that the prediction pipeline will load the dataframe and model from s3 bucket.
+Then it will do the prediction and return the result.
+
+##We will be downloading the model in local from the s3 bucket at time of prediction for first time.
+Whenevwe we will do next prediction, we will check whether there is any model present or not. if present then no need to download.
+
+
+----------------------------------------------------------------------------------------------------
+
+Now we have to call the prediction pipeline in app.py.
+In app.py we are going to use fastAPI.
+
+In FastAPI, There is a get function to receive input through form.
+
+FastAPI will also be using html and css and their codes are present in templates and static folder under us_visa.
+
+
+Once the code is done. We will launch the UI.
+Now we need to run app.py.
+
+##We are not downloading the model, we are just directly loading and doing the prediction.
